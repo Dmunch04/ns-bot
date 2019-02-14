@@ -14,7 +14,7 @@ client.remove_command('help')
 
 @client.event
 async def on_ready ():
-  await client.change_presence(game=discord.Game(name="NS Nation | .help"))
+  await client.change_presence(game=discord.Game(name=".help | nightscape.london"))
   print("Bot's been booted up. Awaiting user interaction")
 
 @client.event
