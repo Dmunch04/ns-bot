@@ -3,6 +3,7 @@ import shutil
 import json
 import discord
 from discord.ext import commands
+import urbandictionary as ud
 
 TOKEN = os.environ['token']
 Client = discord.Client()
@@ -46,6 +47,7 @@ async def help (ctx):
     embed.add_field(name = '.help', value = 'Shows the commands', inline = False)
     embed.add_field(name = '.role [Role]', value = 'Adds a role to you. Check #info for role information', inline = False)
     embed.add_field(name = '.thanks [User]', value = 'Thanks the given user', inline = False)
+    embed.add_field(name = '.urban [Search]', value = 'Searches Urban Dictionary for the search item', inline = False)
 
     await client.send_message(channel, embed=embed)
   else:
@@ -53,6 +55,7 @@ async def help (ctx):
     embed.add_field(name = '.help', value = 'Shows the commands', inline = False)
     embed.add_field(name = '.role [Role]', value = 'Adds a role to you. Check #info for role information', inline = False)
     embed.add_field(name = '.thanks [User]', value = 'Thanks the given user', inline = False)
+    embed.add_field(name = '.urban [Search]', value = 'Searches Urban Dictionary for the search item', inline = False)
 
     await client.send_message(channel, embed=embed)
 
@@ -130,6 +133,40 @@ async def thanks (ctx, user : discord.Member = ""):
 
       await client.send_message(channel, embed=embed_error)
 
+@client.command(pass_context = True)
+async def urban (ctx, search = ""):
+  embed_success = discord.Embed(
+    colour = discord.Colour.green()
+  )
+
+  embed_error = discord.Embed(
+    colour = discord.Colour.red()
+  )
+  
+  if search == "":
+    embed_error.set_author(name = 'Error')
+    embed_error.add_field(name = 'Specify', value = 'Please specify what you wanna search for!', inline = False)
+    
+    await client.send_message(channel, embed=embed_error)
+  else:
+    try:
+      definitions = ud.define(search)
+      
+      definition = definitions[0]
+      
+      embed_success.set_author(name = 'We found a result')
+      embed_success.add_field(name = 'Searched word:', value = definition.word, inline = False)
+      embed_success.add_field(name = 'Definition:', value = definition.definition, inline = False)
+      embed_success.add_field(name = 'Usage Example:', value = definition.example, inline = False)
+      embed_success.add_field(name = 'Rating:', value = '👍{} 👎{}'.format(definition.upvotes, definition.downvotes), inline = False)
+
+      await client.send_message(channel, embed=embed_success)
+    except:
+      embed_error.set_author(name = 'Error')
+      embed_error.add_field(name = 'Something went wrong..', value = 'Please make sure you did everything correct!', inline = False)
+      
+      await client.send_message(channel, embed=embed_error)
+      
 # -- DEV COMMANDS (REMOVE WHEN RELEASE) --
 
 @client.command(pass_context = True)
