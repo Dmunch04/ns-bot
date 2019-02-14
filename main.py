@@ -161,7 +161,7 @@ async def urban (ctx, search = ""):
       embed_success.add_field(name = 'Searched word:', value = definition.word, inline = False)
       embed_success.add_field(name = 'Definition:', value = definition.definition, inline = False)
       embed_success.add_field(name = 'Usage Example:', value = definition.example, inline = False)
-      embed_success.add_field(name = 'Rating:', value = '👍{} 👎{}'.format(definition.upvotes, definition.downvotes), inline = False)
+      embed_success.add_field(name = 'Rating:', value = '👍{}   👎{}'.format(definition.upvotes, definition.downvotes), inline = False)
 
       await client.send_message(channel, embed=embed_success)
     except:
