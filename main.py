@@ -135,6 +135,9 @@ async def thanks (ctx, user : discord.Member = ""):
 
 @client.command(pass_context = True)
 async def urban (ctx, search = ""):
+  sender = ctx.message.author
+  channel = ctx.message.channel
+  
   embed_success = discord.Embed(
     colour = discord.Colour.green()
   )
