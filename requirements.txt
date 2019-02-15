@@ -9,4 +9,3 @@ future
 fake-useragent
 git+git://github.com/abenassi/Google-Search-API.git
 git+git://github.com/Dmunch04/api-example.git
-git+git://github.com/AWegnerGitHub/stackapi
