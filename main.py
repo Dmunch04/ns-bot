@@ -6,7 +6,6 @@ from discord.ext import commands
 import urbandictionary as ud
 from google import google
 import example as ex
-from googleapiclient.discovery import build
 
 TOKEN = os.environ['token']
 Client = discord.Client()
@@ -195,18 +194,13 @@ async def google (ctx, search = ""):
     await client.send_message(channel, embed=embed_error)
   else:
     try:
-      #results = google.search(search)
+      results = google.search(search)
       
-      results = google_search(search, "AIzaSyBznj3HhweXLQhrXiOJVDua2uUYfjR5rXM", "011733916195429171881:uzklvy756fi", num = 10)
-      
-      for result in results:
-        await client.say(result)
-      
-      #embed_success.set_author(name = 'We found a result')
-      #embed_success.add_field(name = 'Name:', value = results.name, inline = False)
-      #embed_success.add_field(name = 'Description :', value = results.description, inline = False)
-      #embed_success.add_field(name = 'Link:', value = results.link, inline = False)
-      #embed_success.add_field(name = 'Found results of' + "'{}'".format(search) + ':', value = results.number_of_results, inline = False)
+      embed_success.set_author(name = 'We found a result')
+      embed_success.add_field(name = 'Name:', value = results.name, inline = False)
+      embed_success.add_field(name = 'Description :', value = results.description, inline = False)
+      embed_success.add_field(name = 'Link:', value = results.link, inline = False)
+      embed_success.add_field(name = 'Found results of' + "'{}'".format(search) + ':', value = results.number_of_results, inline = False)
 
       await client.send_message(channel, embed=embed_success)
     except:
@@ -234,11 +228,6 @@ async def cuf (ctx, user : discord.Member = ""):
       print('Didnt go as planned :/')
 
 # -- OTHER --
-
-def googe_search (search, api-key, cse-id, **kwargs):
-  service = build("Google Search API", "v1", developerKey = api-key)
-  res = service.cse().list(q = search, cx = cse-id, **kwargs).execute()
-  return res['items']
 
 def userFile (path, user : discord.Member):
   path = path + '/User File.json'
