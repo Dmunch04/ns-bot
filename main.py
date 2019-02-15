@@ -195,13 +195,11 @@ async def google (ctx, search = ""):
     try:
       results = google.search(search)
       
-      result = results[0]
-      
       embed_success.set_author(name = 'We found a result')
-      embed_success.add_field(name = 'Name:', value = result.name, inline = False)
-      embed_success.add_field(name = 'Description :', value = result.description, inline = False)
-      embed_success.add_field(name = 'Link:', value = result.link, inline = False)
-      embed_success.add_field(name = 'Found results of' + "'{}'".format(search) + ':', value = result.number_of_results, inline = False)
+      embed_success.add_field(name = 'Name:', value = results.name, inline = False)
+      embed_success.add_field(name = 'Description :', value = results.description, inline = False)
+      embed_success.add_field(name = 'Link:', value = results.link, inline = False)
+      embed_success.add_field(name = 'Found results of' + "'{}'".format(search) + ':', value = results.number_of_results, inline = False)
 
       await client.send_message(channel, embed=embed_success)
     except:
