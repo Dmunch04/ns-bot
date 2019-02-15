@@ -213,7 +213,9 @@ async def google (ctx, search = ""):
 
 @client.command()
 async def test (arg):
-  ex.get(1)
+  result = ex.get(1)
+  
+  await client.say(result.obj1)
 
 @client.command(pass_context = True)
 async def cuf (ctx, user : discord.Member = ""):
