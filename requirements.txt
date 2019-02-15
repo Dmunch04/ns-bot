@@ -7,3 +7,4 @@ unidecode
 vcrpy
 future
 fake-useragent
+git+git://github.com/abenassi/Google-Search-API.git
