@@ -3,6 +3,8 @@ import shutil
 import json
 import discord
 from discord.ext import commands
+import urbandictionary as ud
+from google import google
 
 TOKEN = os.environ['token']
 Client = discord.Client()
@@ -14,7 +16,7 @@ client.remove_command('help')
 
 @client.event
 async def on_ready ():
-  await client.change_presence(game=discord.Game(name="NS Nation | .help"))
+  await client.change_presence(game=discord.Game(name=".help | nightscape.london"))
   print("Bot's been booted up. Awaiting user interaction")
 
 @client.event
@@ -46,6 +48,8 @@ async def help (ctx):
     embed.add_field(name = '.help', value = 'Shows the commands', inline = False)
     embed.add_field(name = '.role [Role]', value = 'Adds a role to you. Check #info for role information', inline = False)
     embed.add_field(name = '.thanks [User]', value = 'Thanks the given user', inline = False)
+    embed.add_field(name = '.urban [Search]', value = 'Searches Urban Dictionary for the search item', inline = False)
+    embed.add_field(name = '.google [Search]', value = 'Searches Google for the search item', inline = False)
 
     await client.send_message(channel, embed=embed)
   else:
@@ -53,6 +57,8 @@ async def help (ctx):
     embed.add_field(name = '.help', value = 'Shows the commands', inline = False)
     embed.add_field(name = '.role [Role]', value = 'Adds a role to you. Check #info for role information', inline = False)
     embed.add_field(name = '.thanks [User]', value = 'Thanks the given user', inline = False)
+    embed.add_field(name = '.urban [Search]', value = 'Searches Urban Dictionary for the search item', inline = False)
+    embed.add_field(name = '.google [Search]', value = 'Searches Google for the search item', inline = False)
 
     await client.send_message(channel, embed=embed)
 
@@ -130,6 +136,78 @@ async def thanks (ctx, user : discord.Member = ""):
 
       await client.send_message(channel, embed=embed_error)
 
+@client.command(pass_context = True)
+async def urban (ctx, search = ""):
+  sender = ctx.message.author
+  channel = ctx.message.channel
+  
+  embed_success = discord.Embed(
+    colour = discord.Colour.green()
+  )
+
+  embed_error = discord.Embed(
+    colour = discord.Colour.red()
+  )
+  
+  if search == "":
+    embed_error.set_author(name = 'Error')
+    embed_error.add_field(name = 'Specify', value = 'Please specify what you wanna search for!', inline = False)
+    
+    await client.send_message(channel, embed=embed_error)
+  else:
+    try:
+      definitions = ud.define(search)
+      
+      definition = definitions[0]
+      
+      embed_success.set_author(name = 'We found a result')
+      embed_success.add_field(name = 'Searched word:', value = definition.word, inline = False)
+      embed_success.add_field(name = 'Definition:', value = definition.definition, inline = False)
+      embed_success.add_field(name = 'Usage Example:', value = definition.example, inline = False)
+      embed_success.add_field(name = 'Rating:', value = '👍{}   👎{}'.format(definition.upvotes, definition.downvotes), inline = False)
+
+      await client.send_message(channel, embed=embed_success)
+    except:
+      embed_error.set_author(name = 'Error')
+      embed_error.add_field(name = 'Something went wrong..', value = 'Please make sure you did everything correct!', inline = False)
+      
+      await client.send_message(channel, embed=embed_error)
+
+@client.command(pass_context = True)
+async def google (ctx, search = ""):
+  sender = ctx.message.author
+  channel = ctx.message.channel
+  
+  embed_success = discord.Embed(
+    colour = discord.Colour.green()
+  )
+
+  embed_error = discord.Embed(
+    colour = discord.Colour.red()
+  )
+  
+  if search == "":
+    embed_error.set_author(name = 'Error')
+    embed_error.add_field(name = 'Specify', value = 'Please specify what you wanna search for!', inline = False)
+    
+    await client.send_message(channel, embed=embed_error)
+  else:
+    try:
+      results = google.search(search)
+      
+      embed_success.set_author(name = 'We found a result')
+      embed_success.add_field(name = 'Name:', value = results.name, inline = False)
+      #embed_success.add_field(name = 'Description :', value = results.description, inline = False)
+      #embed_success.add_field(name = 'Link:', value = results.link, inline = False)
+      #embed_success.add_field(name = 'Found results of' + "'{}'".format(search) + ':', value = results.number_of_results, inline = False)
+
+      await client.send_message(channel, embed=embed_success)
+    except:
+      embed_error.set_author(name = 'Error')
+      embed_error.add_field(name = 'Something went wrong..', value = 'Please make sure you did everything correct!', inline = False)
+      
+      await client.send_message(channel, embed=embed_error)      
+      
 # -- DEV COMMANDS (REMOVE WHEN RELEASE) --
 
 @client.command(pass_context = True)
