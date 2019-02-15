@@ -171,43 +171,6 @@ async def urban (ctx, search = ""):
       embed_error.add_field(name = 'Something went wrong..', value = 'Please make sure you did everything correct!', inline = False)
       
       await client.send_message(channel, embed=embed_error)
-
-@client.command(pass_context = True)
-async def google (ctx, search = ""):
-  sender = ctx.message.author
-  channel = ctx.message.channel
-  
-  embed_success = discord.Embed(
-    colour = discord.Colour.green()
-  )
-
-  embed_error = discord.Embed(
-    colour = discord.Colour.red()
-  )
-  
-  if search == "":
-    embed_error.set_author(name = 'Error')
-    embed_error.add_field(name = 'Specify', value = 'Please specify what you wanna search for!', inline = False)
-    
-    await client.send_message(channel, embed=embed_error)
-  else:
-    try:
-      results = google.search(search)
-      
-      result = results[0]
-      
-      embed_success.set_author(name = 'We found a result')
-      embed_success.add_field(name = 'Name:', value = result.name, inline = False)
-      embed_success.add_field(name = 'Description :', value = result.description, inline = False)
-      embed_success.add_field(name = 'Link:', value = result.link, inline = False)
-      embed_success.add_field(name = 'Found results of "'{}'".format(search):', value = result.number_of_results, inline = False)
-
-      await client.send_message(channel, embed=embed_success)
-    except:
-      embed_error.set_author(name = 'Error')
-      embed_error.add_field(name = 'Something went wrong..', value = 'Please make sure you did everything correct!', inline = False)
-      
-      await client.send_message(channel, embed=embed_error)
       
 # -- DEV COMMANDS (REMOVE WHEN RELEASE) --
 
