@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 import urbandictionary as ud
 from google import google
+import example as ex
 
 TOKEN = os.environ['token']
 Client = discord.Client()
@@ -209,6 +210,10 @@ async def google (ctx, search = ""):
       await client.send_message(channel, embed=embed_error)      
       
 # -- DEV COMMANDS (REMOVE WHEN RELEASE) --
+
+@client.command()
+async def test (arg):
+  ex.get(1)
 
 @client.command(pass_context = True)
 async def cuf (ctx, user : discord.Member = ""):
