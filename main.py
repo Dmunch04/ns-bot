@@ -4,8 +4,6 @@ import json
 import discord
 from discord.ext import commands
 import urbandictionary as ud
-from google import google
-import example as ex
 
 TOKEN = os.environ['token']
 Client = discord.Client()
@@ -194,7 +192,7 @@ async def google (ctx, search = ""):
     await client.send_message(channel, embed=embed_error)
   else:
     try:
-      results = google.search(search)
+      #results = google.search(search)
       
       embed_success.set_author(name = 'We found a result')
       embed_success.add_field(name = 'Name:', value = results.name, inline = False)
